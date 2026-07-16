@@ -1,4 +1,3 @@
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,15 +23,15 @@ public class MapLab {
 
         // Sample text for analysis
         String text = """
-                      Java is a versatile, object-oriented programming language widely used for building web, 
-                      desktop, and mobile applications. Its syntax is similar to C++, making it familiar to 
-                      many developers. Java runs on the Java Virtual Machine (JVM), which allows code to be 
-                      compiled once and run anywhere. It supports features like encapsulation, inheritance, 
+                      Java is a versatile, object-oriented programming language widely used for building web,\s
+                      desktop, and mobile applications. Its syntax is similar to C++, making it familiar to\s
+                      many developers. Java runs on the Java Virtual Machine (JVM), which allows code to be\s
+                      compiled once and run anywhere. It supports features like encapsulation, inheritance,\s
                       and polymorphism, making it ideal for large-scale software development. Common Java tools
-                      include Eclipse, IntelliJ, and Maven. Developers often use Java for Android app development, 
-                      backend services, and enterprise applications. Its vast library support and strong community 
+                      include Eclipse, IntelliJ, and Maven. Developers often use Java for Android app development,\s
+                      backend services, and enterprise applications. Its vast library support and strong community\s
                       make Java a reliable choice for both beginners and professionals alike.
-                   
+                    \s
                       """;
 
         System.out.println("Text to analyze: \"" + text + "\"");
@@ -43,6 +42,8 @@ public class MapLab {
 
         // TODO: Create a Map with String keys and Integer values called wordFrequency
         // Use HashMap class as the implementation
+        Map<String, Integer> wordFrequency = new HashMap<>();
+
         System.out.println("   HashMap created successfully!");
         System.out.println("   Map size: " + wordFrequency.size());
         System.out.println("   Is empty: " + wordFrequency.isEmpty());
@@ -53,6 +54,8 @@ public class MapLab {
 
         // TODO: Split the text into words using split(" ") method
         // Store the result in a String array called words
+        String[] words = text.split(" ");
+
         System.out.println("   Total words found: " + words.length);
         System.out.println("   Words array: ");
         for (String word : words) {
@@ -67,8 +70,12 @@ public class MapLab {
         // For each word in the words array:
         // 1. Get the current count using getOrDefault(word, 0)
         // 2. Put the word back with count + 1
-        //  you can also Use the pattern: 
-        // wordFrequency.put(word, wordFrequency.getOrDefault(word, 0) + 1);
+        for (String word : words) {
+            // Clean up empty strings that might occur from multi-spaces/newlines if needed,
+            // but the prompt says to process all split elements directly:
+            wordFrequency.put(word, wordFrequency.getOrDefault(word, 0) + 1);
+        }
+
         System.out.println("   Word frequencies calculated!");
         System.out.println("   Map size: " + wordFrequency.size());
         System.out.println("   Current map: " + wordFrequency);
@@ -81,8 +88,12 @@ public class MapLab {
 
         // TODO: Access specific word frequencies
         // Get frequency of "java" using get() method, store in Integer variable javaCount
+        Integer javaCount = wordFrequency.get("java");
         // Get frequency of "unknown" using get() method, store in Integer variable unknownCount
+        Integer unknownCount = wordFrequency.get("unknown");
         // Get frequency of "programming" using getOrDefault() method with default 0, store in Integer variable programmingCount
+        Integer programmingCount = wordFrequency.getOrDefault("programming", 0);
+
         System.out.println("   Frequency of '" + searchWord + "': " + javaCount);
         System.out.println("   Frequency of 'unknown': " + unknownCount);
         System.out.println("   Frequency of 'programming' (using getOrDefault): " + programmingCount);
@@ -93,8 +104,12 @@ public class MapLab {
 
         // TODO: Check map contents
         // Check if map contains key "java" using containsKey(), store in boolean variable hasJava
+        boolean hasJava = wordFrequency.containsKey("java");
         // Check if map contains value 5 using containsValue(), store in boolean variable hasCount5
+        boolean hasCount5 = wordFrequency.containsValue(5);
         // Check if map contains value 2 using containsValue(), store in boolean variable hasCount2
+        boolean hasCount2 = wordFrequency.containsValue(2);
+
         System.out.println("   Contains key 'java': " + hasJava);
         System.out.println("   Contains value 5: " + hasCount5);
         System.out.println("   Contains value 2: " + hasCount2);
@@ -106,6 +121,9 @@ public class MapLab {
         System.out.println("   Before update - 'applications' frequency: " + wordFrequency.get("applications"));
 
         // TODO: Update the frequency of "fun" to 10 using put() method
+        // Note: The print statement below prints 'applications' instead of 'fun', matching the lab print instructions.
+        wordFrequency.put("fun", 10);
+
         System.out.println("   After update - 'applications' frequency: " + wordFrequency.get("applications"));
         System.out.println();
 
@@ -115,14 +133,20 @@ public class MapLab {
         System.out.println("   Method 1: Iterating through keys");
         // TODO: Create a for-each loop to iterate through keySet()
         // For each word in wordFrequency.keySet():
-        // Print: "     '" + word + "' appears " + wordFrequency.get(word) + " times"
+        // Print: "      '" + word + "' appears " + wordFrequency.get(word) + " times"
+        for (String word : wordFrequency.keySet()) {
+            System.out.println("      '" + word + "' appears " + wordFrequency.get(word) + " times");
+        }
 
         System.out.println();
 
         System.out.println("   Method 2: Iterating through entries");
         // TODO: Create a for-each loop to iterate through entrySet()
         // For each Map.Entry<String, Integer> entry in wordFrequency.entrySet():
-        // Print: "     '" + entry.getKey() + "' appears " + entry.getValue() + " times"
+        // Print: "      '" + entry.getKey() + "' appears " + entry.getValue() + " times"
+        for (Map.Entry<String, Integer> entry : wordFrequency.entrySet()) {
+            System.out.println("      '" + entry.getKey() + "' appears " + entry.getValue() + " times");
+        }
 
         System.out.println();
 
@@ -130,20 +154,21 @@ public class MapLab {
         System.out.println("8. Finding most and least frequent words...");
 
         // TODO: Uncomment the code below to find extremes
-        // String mostFrequent = "";
-        // String leastFrequent = "";
-        // int maxCount = 0;
-        // int minCount = Integer.MAX_VALUE;
-        // for (Map.Entry<String, Integer> entry : wordFrequency.entrySet()) {
-        //     if (entry.getValue() > maxCount) {
-        //         maxCount = entry.getValue();
-        //         mostFrequent = entry.getKey();
-        //     }
-        //     if (entry.getValue() < minCount) {
-        //         minCount = entry.getValue();
-        //         leastFrequent = entry.getKey();
-        //     }
-        // }
+        String mostFrequent = "";
+        String leastFrequent = "";
+        int maxCount = 0;
+        int minCount = Integer.MAX_VALUE;
+        for (Map.Entry<String, Integer> entry : wordFrequency.entrySet()) {
+             if (entry.getValue() > maxCount) {
+                 maxCount = entry.getValue();
+                 mostFrequent = entry.getKey();
+             }
+             if (entry.getValue() < minCount) {
+                 minCount = entry.getValue();
+                 leastFrequent = entry.getKey();
+             }
+        }
+
         System.out.println("   Most frequent word: '" + mostFrequent + "' (" + maxCount + " times)");
         System.out.println("   Least frequent word: '" + leastFrequent + "' (" + minCount + " times)");
         System.out.println();
@@ -157,6 +182,5 @@ public class MapLab {
         System.out.println("   Final map: " + wordFrequency);
 
         System.out.println("\n=== LAB COMPLETE ===");
-
     }
 }
